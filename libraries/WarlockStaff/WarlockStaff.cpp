@@ -1,8 +1,11 @@
 #include "WarlockStaff.h"
 
 WarlockStaff::WarlockStaff() : 
-    idleAnimation(display, clock),
+    beatStripsAnimation(display, clock),
     glitterAnimation(display, clock),
+    idleAnimation(display, clock),
+    juggleDotsAnimation(display, clock),
+    pulseFireAnimation(display, clock),
     rainbowAnimation(display, clock)
 {
 }
@@ -16,11 +19,15 @@ void WarlockStaff::setup()
     display.setup();
     clock.setup(FPS);
     
+    beatStripsAnimation.setup();
     idleAnimation.setup(1000, 100, CRGB::White);
     glitterAnimation.setup(10, 888, 20, 200, CRGB::White, true);
+    juggleDotsAnimation.setup();
+    pulseFireAnimation.setup();
     rainbowAnimation.setup();
 
-    currentAnimation = &rainbowAnimation;
+    currentAnimation = &pulseFireAnimation;
+    scene = 3;
 
     animationFadeAmountPerFrame = 255 / (1000 / clock.getTargetMsPerFrame());
     Serial.println("Warlock|Staff setup complete");
@@ -62,7 +69,7 @@ void WarlockStaff::loop()
 
     EVERY_N_SECONDS(30)
     {
-        scene = (scene + 1) % 3;
+        scene = (scene + 1) % 6;
         Serial.print("Changin animation to: ");
         Serial.println(scene);
 
@@ -74,8 +81,17 @@ void WarlockStaff::loop()
         case 1:
             setAnimation(&glitterAnimation);
             break;
-        case 3:
+        case 2:
             setAnimation(&rainbowAnimation);
+            break;
+        case 3:
+            setAnimation(&pulseFireAnimation);
+            break;
+        case 4:
+            setAnimation(&beatStripsAnimation);
+            break;
+        case 5:
+            setAnimation(&juggleDotsAnimation);
             break;
         }
     }

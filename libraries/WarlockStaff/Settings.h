@@ -1,7 +1,7 @@
 #ifndef _Settings_h
 #define _Settings_h
 
-#define NumLedsPerStrip     60
+#define NumLedsPerStrip     90
 #define NumStrips           1
 #define DataPin0            12
 #define DataPin1            11
