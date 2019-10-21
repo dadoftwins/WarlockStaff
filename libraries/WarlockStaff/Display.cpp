@@ -22,7 +22,7 @@ void Display::loop()
     FastLED.show();
 }
 
-void Display::clear(bool refresh=true)
+void Display::clear(bool refresh)
 {
     memset(leds, 0, NumStrips * NumLedsPerStrip * 3);
 

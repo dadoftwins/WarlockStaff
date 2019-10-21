@@ -46,7 +46,7 @@ void Clock::setFPS(uint16_t fps)
     Serial.println(targetMsPerFrame);
 }
 
-uint16_t Clock::getTargetMsPerFrame()
+uint16_t Clock::getTargetMsPerFrame() const
 {
     return targetMsPerFrame;
 }

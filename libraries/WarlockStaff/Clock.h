@@ -14,11 +14,11 @@ public:
     void loop();
 
     void setFPS(uint16_t fps);
-    uint16_t getTargetMsPerFrame();
+    uint16_t getTargetMsPerFrame() const;
 
 private:
     ulong lastUpdate;
-    uint16_t targetMsPerFrame;
+    uint8_t targetMsPerFrame;
     uint16_t frameCounter = 0;
     uint16_t millisSinceUpdate = 0;
     uint16_t delayed = 0;

@@ -15,7 +15,7 @@
 class BeatStripsAnimation : public Animation
 {
 public:
-    BeatStripsAnimation(const Display& display, const Clock& clock) : Animation(display, clock)
+    BeatStripsAnimation(Display& display, const Clock& clock) : Animation(display, clock)
     {
     }
 

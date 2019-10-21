@@ -15,7 +15,7 @@
 class PulseFireAnimation : public Animation
 {
 public:
-    PulseFireAnimation(const Display& display, const Clock& clock) : Animation(display, clock)
+    PulseFireAnimation(Display& display, const Clock& clock) : Animation(display, clock)
     {
     }
 
@@ -27,8 +27,8 @@ private:
 
     CRGBPalette16 pallette;
     bool reverseDirection;
-    int cooling;
-    int sparking;
+    uint8_t cooling;
+    uint8_t sparking;
 };
 
 #endif // _PulseFireAnimation_h

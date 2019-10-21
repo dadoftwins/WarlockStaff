@@ -1,5 +1,7 @@
 #include "WarlockStaff.h"
 
+#include <Utilities.h>
+
 WarlockStaff::WarlockStaff() : 
     beatStripsAnimation(display, clock),
     glitterAnimation(display, clock),
@@ -12,9 +14,18 @@ WarlockStaff::WarlockStaff() :
 
 void WarlockStaff::setup()
 {
-    while (!Serial) {};
+    // Startup delay to give 45 seconds for re-uploading
+    for (uint16_t i = 0; i < 45; i++)
+    {
+        delay(1000);
+        if (Serial)
+            break;
+    }
+
     Serial.begin(115200);
-    Serial.println("-=- Warlock|Staff -=- v0.1 (c) 2019 Tim Burrell");
+    SerialPrintln("-=- Warlock|Staff -=- v1.0 (c) 2019 Tim Burrell");
+    SerialPrintln("    Using [", NumStrips, "] Strips of [", NumLedsPerStrip, "] LEDS @ [", FPS, "] FPS");
+    motion.setup();
 
     display.setup();
     clock.setup(FPS);
@@ -30,48 +41,32 @@ void WarlockStaff::setup()
     scene = 3;
 
     animationFadeAmountPerFrame = 255 / (1000 / clock.getTargetMsPerFrame());
-    Serial.println("Warlock|Staff setup complete");
+
+    SerialPrintln("Warlock|Staff setup complete");
 }
 
 void WarlockStaff::setAnimation(Animation* animation)
 {
-    Serial.println("Animation changing...");
+    SerialPrintln("Animation changing...");
     oldAnimation = currentAnimation;
     currentAnimation = animation;
     //currentAnimation->brightness = 0;
-    Serial.println("Animation changed");
+    SerialPrintln("Animation changed");
 }
 
 void WarlockStaff::loop()
 {
+    motion.loop();
     display.loop();
-
-    // if (oldAnimation && oldAnimation->brightness > 0)
-    // {
-    //     oldAnimation->loop();
-
-    //     oldAnimation->brightness = (oldAnimation->brightness >= animationFadeAmountPerFrame) ? oldAnimation->brightness - animationFadeAmountPerFrame : 0;
-    //     Serial.print("Fading old animation out: ");
-    //     Serial.println(oldAnimation->brightness);
-    // }
-
-    // if (currentAnimation->brightness < 0xff)
-    // {
-    //     currentAnimation->brightness = (currentAnimation->brightness < 0xff - animationFadeAmountPerFrame) ? currentAnimation->brightness + animationFadeAmountPerFrame : 0xff;
-    //     Serial.print("Fading new animation in: ");
-    //     Serial.println(currentAnimation->brightness);
-    // }
-
     currentAnimation->loop();
 
     // Update the clock and delay if needed in order to hit the target FPS
     clock.loop();
 
-    EVERY_N_SECONDS(30)
+    EVERY_N_SECONDS(10)
     {
         scene = (scene + 1) % 6;
-        Serial.print("Changin animation to: ");
-        Serial.println(scene);
+        SerialPrintln("Changin animation to: ", scene);
 
         switch (scene)
         {

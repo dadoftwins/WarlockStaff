@@ -14,7 +14,7 @@
 class GlitterAnimation : public Animation
 {
 public:
-    GlitterAnimation(const Display& display, const Clock& clock) : Animation(display, clock)
+    GlitterAnimation(Display& display, const Clock& clock) : Animation(display, clock)
     {
     }
 

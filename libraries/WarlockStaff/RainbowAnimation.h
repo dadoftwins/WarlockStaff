@@ -15,7 +15,7 @@
 class RainbowAnimation : public Animation
 {
 public:
-    RainbowAnimation(const Display& display, const Clock& clock) : Animation(display, clock)
+    RainbowAnimation(Display& display, const Clock& clock) : Animation(display, clock)
     {
     }
 

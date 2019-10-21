@@ -4,9 +4,11 @@ void PulseFireAnimation::setup()
 {
     Serial.println("PulseFireAnimation setup...");
     
-    reverseDirection = false;
+    reverseDirection = true;
     pallette = HeatColors_p;
-    cooling = 55;
+    //cooling = 55;
+    //sparking = 120;
+    cooling = 60;
     sparking = 120;
 }
 

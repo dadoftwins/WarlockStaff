@@ -15,7 +15,7 @@
 class IdleAnimation : public Animation
 {
 public:
-    IdleAnimation(const Display& display, const Clock& clock) : Animation(display, clock)
+    IdleAnimation(Display& display, const Clock& clock) : Animation(display, clock)
     {
     }
 
@@ -24,7 +24,7 @@ public:
 
 private:
     Easing easing;
-    uint16_t fadeAmountPerFrame = 255;
+    uint8_t fadeAmountPerFrame = 255;
     bool direction = true;
     CRGB color;
 };

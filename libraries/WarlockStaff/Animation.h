@@ -11,7 +11,7 @@
 class Animation
 {
 public:
-    Animation(const Display& systemDisplay, const Clock& systemClock) : 
+    Animation(Display& systemDisplay, const Clock& systemClock) : 
         display(systemDisplay), 
         clock(systemClock),
         brightness(0xff)
@@ -23,7 +23,7 @@ public:
     uint8_t brightness;
 
 protected:
-    const Display& display;
+    Display& display;
     const Clock& clock;
 };
 

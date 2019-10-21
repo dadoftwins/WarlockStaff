@@ -15,7 +15,7 @@
 class JuggleDotsAnimation : public Animation
 {
 public:
-    JuggleDotsAnimation(const Display& display, const Clock& clock) : Animation(display, clock)
+    JuggleDotsAnimation(Display& display, const Clock& clock) : Animation(display, clock)
     {
     }
 

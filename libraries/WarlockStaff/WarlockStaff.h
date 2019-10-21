@@ -9,6 +9,7 @@
 #include <GlitterAnimation.h>
 #include <IdleAnimation.h>
 #include <JuggleDotsAnimation.h>
+#include <Motion.h>
 #include <PulseFireAnimation.h>
 #include <RainbowAnimation.h>
 
@@ -26,8 +27,9 @@ public:
 
     void setAnimation(Animation* animation);
 
-
 private:
+    void handleComms();
+
     BeatStripsAnimation beatStripsAnimation;
     Clock clock;
     Display display;
@@ -40,6 +42,7 @@ private:
     uint8_t animationFadeAmountPerFrame;
     Animation* currentAnimation = nullptr;
     Animation* oldAnimation = nullptr;
+    Motion motion;
 };
 
 #endif // _WarlockStaff_h

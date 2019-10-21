@@ -1,12 +1,12 @@
 #include "GlitterAnimation.h"
 
 void GlitterAnimation::setup(
-    uint16_t popInMs = 100,
-    uint16_t fadeMs = 100,
-    uint8_t maxSparkles = 20,
-    uint8_t chanceOfSparkle = 200,
-    CRGB sparkleColor = CRGB::White,
-    bool randomColor = false)
+    uint16_t popInMs,
+    uint16_t fadeMs,
+    uint8_t maxSparkles,
+    uint8_t chanceOfSparkle,
+    CRGB sparkleColor,
+    bool randomColor)
 {
     Serial.println("GlitterAnimation setup...");
 

@@ -1,6 +1,6 @@
 #include "IdleAnimation.h"
 
-void IdleAnimation::setup(uint16_t msToSweep = 1000, uint16_t msToFade = 100, CRGB color = CRGB::White)
+void IdleAnimation::setup(uint16_t msToSweep, uint16_t msToFade, CRGB color)
 {
     Serial.println("IdleAnimation setup...");
     this->color = color;
