@@ -50,6 +50,8 @@ private:
     Animation* currentAnimation = nullptr;
     Animation* oldAnimation = nullptr;
     StaffState state = StaffState::Idle;
+    StaffState debounceState = StaffState::Idle;
+    ulong debounceTimer;
 };
 
 #endif // _WarlockStaff_h

@@ -36,8 +36,9 @@ void WarlockStaff::setup()
     pulseFireAnimation.setup();
     rainbowAnimation.setup();
 
-    currentAnimation = &pulseFireAnimation;
-    scene = 3;
+    currentAnimation = &idleAnimation;
+    scene = 0;
+    state == StaffState::Idle;
 
     animationFadeAmountPerFrame = 255 / (1000 / clock.getTargetMsPerFrame());
 
@@ -80,6 +81,18 @@ void WarlockStaff::handleSenseEvents()
         break;
     }
 
+    if (newState != debounceState)
+    {
+        debounceTimer = micros();
+        debounceState = newState;
+        return;
+    }
+
+    if ((micros() - debounceTimer) / 1000 < 100)
+    {
+        return;
+    }
+
     if (newState == state)
     {
         return;
@@ -107,7 +120,6 @@ void WarlockStaff::setAnimation(Animation* animation)
     SerialPrintln("Animation changing...");
     oldAnimation = currentAnimation;
     currentAnimation = animation;
-    //currentAnimation->brightness = 0;
     SerialPrintln("Animation changed");
 }
 
