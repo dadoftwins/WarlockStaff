@@ -6,7 +6,6 @@
 #include <Animation.h>
 #include <Clock.h>
 #include <Display.h>
-#include <EasingLib.h>
 
 ////////////////////////////////////////////////////////////////////////
 // IdleAnimation
@@ -23,10 +22,11 @@ public:
     void loop();
 
 private:
-    Easing easing;
     uint8_t fadeAmountPerFrame = 255;
+    uint16_t msToSweep;
     bool direction = true;
     CRGB color;
+    ulong startTime;
 };
 
 #endif // _IdleAnimation_h

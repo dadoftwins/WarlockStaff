@@ -6,7 +6,6 @@
 #include <Animation.h>
 #include <Clock.h>
 #include <Display.h>
-#include <EasingLib.h>
 
 ////////////////////////////////////////////////////////////////////////
 // RainbowAnimation
@@ -24,6 +23,8 @@ public:
 
 private:
     uint8_t hue;
+    bool ocean = true;
+    bool direction = true;
 };
 
 #endif // _RainbowAnimation_h

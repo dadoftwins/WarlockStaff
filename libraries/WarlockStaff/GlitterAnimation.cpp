@@ -4,9 +4,7 @@ void GlitterAnimation::setup(
     uint16_t popInMs,
     uint16_t fadeMs,
     uint8_t maxSparkles,
-    uint8_t chanceOfSparkle,
-    CRGB sparkleColor,
-    bool randomColor)
+    uint8_t chanceOfSparkle)
 {
     Serial.println("GlitterAnimation setup...");
 
@@ -16,8 +14,6 @@ void GlitterAnimation::setup(
 
     this->maxSparkles = maxSparkles;
     this->chanceOfSparkle = chanceOfSparkle;
-    this->color = color;
-    this->randomColor = randomColor;
 }
 
 void GlitterAnimation::loop()
@@ -30,14 +26,8 @@ void GlitterAnimation::loop()
         {
             uint8_t randomStrip = random8(NumStrips);
             uint8_t randomLed = random8(NumLedsPerStrip);
-            if (!randomColor)
-            {
-                display.leds[randomStrip][randomLed] = color.subtractFromRGB(255 - brightness);
-            }
-            else
-            {
-                display.leds[randomStrip][randomLed] = CHSV(random8(255), 200, brightness);
-            }
+            CRGB color = ColorFromPalette(CloudColors_p, random8(0xff), 0xff, LINEARBLEND);
+            display.leds[randomStrip][randomLed] = color.subtractFromRGB(255 - brightness);
         }
     }
 }

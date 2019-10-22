@@ -21,9 +21,7 @@ public:
     void setup(uint16_t popInMs = 100,
         uint16_t fadeMs = 100,
         uint8_t maxSparkles = 20,
-        uint8_t chanceOfSparkle = 200,
-        CRGB sparkleColor = CRGB::White,
-        bool randomColor = false);
+        uint8_t chanceOfSparkle = 200);
 
     void loop();
 
@@ -34,8 +32,6 @@ private:
     uint8_t curSparkles = 0;
     uint8_t chanceOfSparkle = 0;
     uint8_t fadeAmountPerFrame = 0;
-    CRGB color;
-    bool randomColor;
 };
 
 #endif // _GlitterAnimation_h

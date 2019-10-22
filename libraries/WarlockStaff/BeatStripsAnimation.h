@@ -6,7 +6,6 @@
 #include <Animation.h>
 #include <Clock.h>
 #include <Display.h>
-#include <EasingLib.h>
 
 ////////////////////////////////////////////////////////////////////////
 // BeatStripsAnimation

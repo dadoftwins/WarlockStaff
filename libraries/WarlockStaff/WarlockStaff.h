@@ -9,13 +9,20 @@
 #include <GlitterAnimation.h>
 #include <IdleAnimation.h>
 #include <JuggleDotsAnimation.h>
-#include <Motion.h>
 #include <PulseFireAnimation.h>
 #include <RainbowAnimation.h>
 
 ////////////////////////////////////////////////////////////////////////
 // WarlockStaff Class
 //////////////////////////
+
+enum StaffState
+{
+    Idle,
+    Tap,
+    DoubleTap,
+    Horizontal
+};
 
 class WarlockStaff
 {
@@ -28,7 +35,7 @@ public:
     void setAnimation(Animation* animation);
 
 private:
-    void handleComms();
+    void handleSenseEvents();
 
     BeatStripsAnimation beatStripsAnimation;
     Clock clock;
@@ -42,7 +49,7 @@ private:
     uint8_t animationFadeAmountPerFrame;
     Animation* currentAnimation = nullptr;
     Animation* oldAnimation = nullptr;
-    Motion motion;
+    StaffState state = StaffState::Idle;
 };
 
 #endif // _WarlockStaff_h
