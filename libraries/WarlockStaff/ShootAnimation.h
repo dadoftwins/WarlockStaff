@@ -24,7 +24,20 @@ public:
     virtual void start() override;
 
 private:
+    void glowBase(uint16_t elapsedMs);
+    void waves(uint16_t elapsedMs);
+    void shots(uint16_t elapsedMs);
+    void insanity(uint16_t elapsedMs);
+    void sparkleAway(uint16_t elapsedMs);
+
+    static const uint8_t MaxRings = 10;
+
     uint16_t frame = 0;
+    uint8_t phase = 0;
+    ulong startTime = 0;
+    uint16_t incrementer = 0;
+    ulong ringFireTimes[MaxRings];
+    bool ringActive[MaxRings] = {false};
 };
 
 #endif // _ShootAnimation_h
