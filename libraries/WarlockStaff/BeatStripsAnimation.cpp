@@ -2,8 +2,6 @@
 
 void BeatStripsAnimation::setup()
 {
-    Serial.println("BeatStripsAnimation setup...");
-    
     bpm = 62;
     hue = 0;
 }

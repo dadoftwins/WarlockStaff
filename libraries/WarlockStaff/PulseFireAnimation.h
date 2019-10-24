@@ -21,6 +21,8 @@ public:
     void setup();
     void loop();
 
+    virtual ulong animationTime() const override { return 15000; }
+
 private:
     void fireOnStrip(uint8_t strip);
 

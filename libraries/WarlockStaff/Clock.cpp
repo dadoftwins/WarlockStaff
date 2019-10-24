@@ -15,11 +15,10 @@ void Clock::loop()
     millisSinceUpdate += elapsed;
     if (millisSinceUpdate >= 1000)
     {
-        Serial.print("Clock FPS: ");
+        Serial.print("FPS: ");
         Serial.print(frameCounter);
-        Serial.print(" delayed ");
-        Serial.print(delayed);
-        Serial.println("ms");
+        Serial.print(" del ");
+        Serial.println(delayed);
         frameCounter = 0;
         millisSinceUpdate = 0;
         delayed = 0;

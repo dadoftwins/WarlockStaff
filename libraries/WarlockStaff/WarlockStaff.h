@@ -11,6 +11,7 @@
 #include <JuggleDotsAnimation.h>
 #include <PulseFireAnimation.h>
 #include <RainbowAnimation.h>
+#include <ShootAnimation.h>
 
 ////////////////////////////////////////////////////////////////////////
 // WarlockStaff Class
@@ -36,6 +37,7 @@ public:
 
 private:
     void handleSenseEvents();
+    void handleSenseEventsFomSerial();
 
     BeatStripsAnimation beatStripsAnimation;
     Clock clock;
@@ -45,13 +47,15 @@ private:
     JuggleDotsAnimation juggleDotsAnimation;
     PulseFireAnimation pulseFireAnimation;
     RainbowAnimation rainbowAnimation;
-    uint8_t scene = 0;
+    ShootAnimation shootAnimation;
+    uint8_t idleScene = 0;
+    uint8_t idleCounter = 0;
     uint8_t animationFadeAmountPerFrame;
     Animation* currentAnimation = nullptr;
     Animation* oldAnimation = nullptr;
     StaffState state = StaffState::Idle;
-    StaffState debounceState = StaffState::Idle;
-    ulong debounceTimer;
+    uint16_t animationMinimumTime;
+    ulong animationStartTime;
 };
 
 #endif // _WarlockStaff_h

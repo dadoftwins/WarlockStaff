@@ -6,8 +6,6 @@ void GlitterAnimation::setup(
     uint8_t maxSparkles,
     uint8_t chanceOfSparkle)
 {
-    Serial.println("GlitterAnimation setup...");
-
     this->popInMs = popInMs;
     this->fadeMs = fadeMs;
     fadeAmountPerFrame = 255 / (fadeMs / clock.getTargetMsPerFrame());

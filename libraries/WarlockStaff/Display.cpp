@@ -6,10 +6,6 @@ void Display::setup()
     if (NumStrips > 0) AddLeds(0);
     if (NumStrips > 1) AddLeds(1);
     if (NumStrips > 2) AddLeds(2);
-    if (NumStrips > 3) 
-    {
-        Serial.println("WARNING: Unsupported number of LED strips");
-    }
     #undef AddLeds
 
     clear();

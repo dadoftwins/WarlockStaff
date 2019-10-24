@@ -2,7 +2,11 @@
 
 void RainbowAnimation::setup()
 {
-    Serial.println("RainbowAnimation setup...");
+    start();
+}
+
+void RainbowAnimation::start()
+{
     brightness = 0;
 }
 
@@ -16,12 +20,16 @@ void fill_pallette(struct CRGB* pFirstLED, int numToFill, uint8_t initialhue, ui
 
 void RainbowAnimation::loop()
 {
-    brightness += 6;
-    if (brightness >= 252)
+    if (brightness <= 252)
     {
-        direction = !direction;
-        brightness = 0;
+        brightness += 1;
     }
+    
+    // if (brightness >= 252)
+    // {
+    //     direction = !direction;
+    //     brightness = 0;
+    // }
     
     for (uint8_t strip = 0; strip < NumStrips; strip++)
     {
@@ -35,7 +43,7 @@ void RainbowAnimation::loop()
         }
     }
 
-    EVERY_N_MILLISECONDS(2)
+    EVERY_N_MILLISECONDS(3)
     {
         hue += 1;
     }

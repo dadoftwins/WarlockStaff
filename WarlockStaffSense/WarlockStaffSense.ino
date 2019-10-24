@@ -15,6 +15,7 @@ const uint16_t FPS = 240; // Refresh rate of sensor is 120Hz, go double that
 const uint8_t DelayPerLoop = 1000 / FPS;
 const float TapGsThreshold = 5.0f;
 const uint16_t DoubleTapMs = 2000;
+const uint16_t DoubleTapDelayMs = 300;
 const float HorizontalAngleTresholdEnable = 1.0f;
 const float HorizontalAngleTresholdDisable = 0.5f;
 const uint8_t BaselineReadings = 10;
@@ -166,6 +167,7 @@ void WarlockStaffSense::setup()
     }
     Serial.begin(115200);
     Serial.println("-=- Warlock|Staff|Sense -=- v1.0 (c) 2019 Tim Burrell");
+    Serial1.begin(9600);
 
     while (true)
     {
@@ -234,6 +236,7 @@ void WarlockStaffSense::setState(StaffState newState)
     state = newState;
     horizontalState = newState;
 
+    /*
     switch (state)
     {
     case StaffState::Idle:
@@ -247,6 +250,23 @@ void WarlockStaffSense::setState(StaffState newState)
         break;
     case StaffState::Horizontal:
         digitalWrite(OutPin1, HIGH); digitalWrite(OutPin0, HIGH);
+        break;
+    }
+    */
+
+    switch (state)
+    {
+    case StaffState::Idle:
+        Serial1.write('0');
+        break;
+    case StaffState::Tap:
+        Serial1.write('1');
+        break;
+    case StaffState::DoubleTap:
+        Serial1.write('2');
+        break;
+    case StaffState::Horizontal:
+        Serial1.write('3');
         break;
     }
 }
@@ -310,7 +330,8 @@ void WarlockStaffSense::updateAcceleration(const Vector3& reading)
             setState(StaffState::Tap);
             break;
         case StaffState::Tap:
-            if ((micros() - firstTap) / 1000 <= DoubleTapMs)
+            if ((micros() - firstTap) / 1000 <= DoubleTapMs && 
+                (micros() - firstTap) / 1000 >= DoubleTapDelayMs)
             {
                 setState(StaffState::DoubleTap);
             }

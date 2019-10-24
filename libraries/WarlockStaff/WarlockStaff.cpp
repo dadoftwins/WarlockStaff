@@ -8,7 +8,8 @@ WarlockStaff::WarlockStaff() :
     idleAnimation(display, clock),
     juggleDotsAnimation(display, clock),
     pulseFireAnimation(display, clock),
-    rainbowAnimation(display, clock)
+    rainbowAnimation(display, clock),
+    shootAnimation(display, clock)
 {
 }
 
@@ -23,8 +24,9 @@ void WarlockStaff::setup()
     }
 
     Serial.begin(115200);
-    SerialPrintln("-=- Warlock|Staff -=- v1.0 (c) 2019 Tim Burrell");
-    SerialPrintln("    Using [", NumStrips, "] Strips of [", NumLedsPerStrip, "] LEDS @ [", FPS, "] FPS");
+    Serial1.begin(9600);
+    SerialPrintln(F("-=- Warlock|Staff -=- v1.0 (c) 2019 Tim Burrell"));
+    SerialPrintln(F("    Using ["), NumStrips, F("] Strips of ["), NumLedsPerStrip, F("] LEDS @ ["), FPS, F("] FPS"));
 
     display.setup();
     clock.setup(FPS);
@@ -37,59 +39,38 @@ void WarlockStaff::setup()
     rainbowAnimation.setup();
 
     currentAnimation = &idleAnimation;
-    scene = 0;
+    idleScene = 0;
     state == StaffState::Idle;
 
     animationFadeAmountPerFrame = 255 / (1000 / clock.getTargetMsPerFrame());
-
-    // Set Rx pins
-    pinMode(CommRxPin0, INPUT);
-    pinMode(CommRxPin1, INPUT);
-
-    SerialPrintln("Warlock|Staff setup complete");
 }
 
-void WarlockStaff::handleSenseEvents()
+void WarlockStaff::handleSenseEventsFomSerial()
 {
-    bool pin0 = digitalRead(CommRxPin0);
-    bool pin1 = digitalRead(CommRxPin1);
-
-    StaffState newState;
-    switch (pin1)
+    if (!Serial1.available())
     {
-    case 0:
-        switch (pin0)
-        {
-        case 0:
-            newState = StaffState::Idle;
-            break;
-        case 1:
-            newState = StaffState::Tap;
-            break;
-        }
-        break;
-    case 1:
-        switch (pin0)
-        {
-        case 0:
-            newState = StaffState::DoubleTap;
-            break;
-        case 1:
-            newState = StaffState::Horizontal;
-            break;
-        }
-        break;
-    }
-
-    if (newState != debounceState)
-    {
-        debounceTimer = micros();
-        debounceState = newState;
         return;
     }
+    
+    char c = Serial1.read();
+    SerialPrintln(F("Sense received: "), c, F(" "), int(c));
 
-    if ((micros() - debounceTimer) / 1000 < 100)
+    StaffState newState;
+    switch (c)
     {
+    case '0':
+        newState = StaffState::Idle;
+        break;
+    case '1':
+        newState = StaffState::Tap;
+        break;
+    case '2':
+        newState = StaffState::DoubleTap;
+        break;
+    case '3':
+        newState = StaffState::Horizontal;
+        break;
+    default:
         return;
     }
 
@@ -98,18 +79,29 @@ void WarlockStaff::handleSenseEvents()
         return;
     }
 
-    SerialPrintln("Sense changing state from [", state, "] to [", newState, "]");
+    SerialPrintln(F("Sense state ["), state, F("] to ["), newState, F("]"));
 
     switch (newState)
     {
     case StaffState::Idle:
+        idleScene = 0;
         break;
     case StaffState::Tap:
         break;
     case StaffState::DoubleTap:
+        if (state != StaffState::Horizontal)
+        {
+            animationMinimumTime = pulseFireAnimation.animationTime();
+            animationStartTime = micros();
+            setAnimation(&pulseFireAnimation);
+        }
         break;
     case StaffState::Horizontal:
-        break;
+        animationMinimumTime = shootAnimation.animationTime();
+        animationStartTime = micros();
+        shootAnimation.start();
+        setAnimation(&shootAnimation);
+        break ;
     }
 
     state = newState;
@@ -117,15 +109,13 @@ void WarlockStaff::handleSenseEvents()
 
 void WarlockStaff::setAnimation(Animation* animation)
 {
-    SerialPrintln("Animation changing...");
     oldAnimation = currentAnimation;
     currentAnimation = animation;
-    SerialPrintln("Animation changed");
 }
 
 void WarlockStaff::loop()
 {
-    handleSenseEvents();
+    handleSenseEventsFomSerial();
 
     display.loop();
     currentAnimation->loop();
@@ -133,31 +123,50 @@ void WarlockStaff::loop()
     // Update the clock and delay if needed in order to hit the target FPS
     clock.loop();
 
-    EVERY_N_SECONDS(10)
+    // Check for priority animation
+    if (animationMinimumTime > 0)
     {
-        scene = (scene + 1) % 6;
-        SerialPrintln("Changin animation to: ", scene);
-
-        switch (scene)
+        ulong activeTime = (micros() - animationStartTime) / 1000;
+        if (activeTime < animationMinimumTime)
         {
-        case 0:
+            return;
+        }
+
+        animationMinimumTime = 0;
+        idleScene = 0;
+        setAnimation(&idleAnimation);
+    }
+
+    EVERY_N_SECONDS(15)
+    {
+        if (state != StaffState::Idle)
+        {
+            return;
+        }
+
+        idleScene = (idleScene + 1) % 2;
+        SerialPrintln(F("Idle anim -> "), idleScene);
+        if (idleScene < 1)
+        {
             setAnimation(&idleAnimation);
-            break;
-        case 1:
-            setAnimation(&glitterAnimation);
-            break;
-        case 2:
-            setAnimation(&rainbowAnimation);
-            break;
-        case 3:
-            setAnimation(&pulseFireAnimation);
-            break;
-        case 4:
-            setAnimation(&beatStripsAnimation);
-            break;
-        case 5:
-            setAnimation(&juggleDotsAnimation);
-            break;
+        }
+        else
+        {
+            switch (random8(4))
+            {
+            case 0:
+                setAnimation(&glitterAnimation);
+                break;
+            case 1:
+                setAnimation(&rainbowAnimation);
+                break;
+            case 2:
+                setAnimation(&beatStripsAnimation);
+                break;
+            case 4:
+                setAnimation(&juggleDotsAnimation);
+                break;
+            }            
         }
     }
 }

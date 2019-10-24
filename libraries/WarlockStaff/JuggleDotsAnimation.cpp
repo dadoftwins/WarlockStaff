@@ -2,7 +2,6 @@
 
 void JuggleDotsAnimation::setup()
 {
-    Serial.println("JuggleDotsAnimation setup...");
 }
 
 void JuggleDotsAnimation::loop()

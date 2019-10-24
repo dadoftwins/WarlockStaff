@@ -2,7 +2,6 @@
 
 void IdleAnimation::setup(uint16_t msToSweep, uint16_t msToFade, CRGB color)
 {
-    Serial.println("IdleAnimation setup...");
     this->color = color;
     this->msToSweep = msToSweep;
 
@@ -11,8 +10,6 @@ void IdleAnimation::setup(uint16_t msToSweep, uint16_t msToFade, CRGB color)
     startTime = micros();
     
     fadeAmountPerFrame = 255 / (msToFade / clock.getTargetMsPerFrame());
-    Serial.print("IdleAnimation fadeAmountPerFrame: ");
-    Serial.println(fadeAmountPerFrame);
 }
 
 void IdleAnimation::loop()

@@ -20,6 +20,7 @@ public:
 
     void setup();
     void loop();
+    virtual void start() override;
 
 private:
     uint8_t hue;

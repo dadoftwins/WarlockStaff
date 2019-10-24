@@ -19,6 +19,8 @@ public:
     }
 
     virtual void loop() = 0;
+    virtual ulong animationTime() const { return 0; }
+    virtual void start() {}
 
     uint8_t brightness;
 
