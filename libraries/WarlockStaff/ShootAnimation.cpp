@@ -10,7 +10,7 @@ void ShootAnimation::setup()
 void ShootAnimation::start()
 {
     phase = 0;
-    startTime = 0;
+    startTime = micros();
     incrementer = 0;
 }
 
@@ -31,7 +31,7 @@ void ShootAnimation::glowBase(uint16_t elapsed)
     uint8_t dotChanceEased = ease8InOutCubic(static_cast<uint8_t>(min((elapsed / (float)FadeMs) * 255, 255)));
     if (random8() < dotChanceEased)
     {
-        for (uint8_t l = NumLedsPerStrip - GlowSize; l >= 0; l--)
+        for (int16_t l = NumLedsPerStrip - GlowSize; l >= 0; l--)
         {
             uint8_t level = static_cast<uint8_t>(l / NumLedsPerStrip * 255.0f);
 
@@ -54,7 +54,7 @@ void ShootAnimation::glowBase(uint16_t elapsed)
 void ShootAnimation::waves(uint16_t elapsed)
 {
     const uint16_t PhaseStartTime = 1000;
-    const uint16_t PhaseTime = 4000;
+    const uint16_t PhaseTime = 5000;
     const uint16_t FadeMs = 20;
     const uint8_t FadeAmountPerFrame = min(255.0f / ((float)FadeMs / clock.getTargetMsPerFrame()), 255);
 
@@ -69,7 +69,7 @@ void ShootAnimation::waves(uint16_t elapsed)
     float percentDone = phaseElapsed / static_cast<float>(PhaseTime);
     uint8_t easedPercentDone = ease8InOutCubic(static_cast<uint8_t>(min(percentDone * 255, 255)));
 
-    for (uint8_t l = NumLedsPerStrip - 1; l >= 0; l--)
+    for (int16_t l = NumLedsPerStrip - 1; l >= 0; l--)
     {
         uint8_t angle = static_cast<uint8_t>(l / NumLedsPerStrip * 255.0f);
         uint8_t sin = sin8(angle + incrementer);
@@ -115,7 +115,7 @@ void ShootAnimation::waves(uint16_t elapsed)
 void ShootAnimation::shots(uint16_t elapsed)
 {
     const uint16_t PhaseStartTime = 4500;
-    const uint16_t PhaseTime = 5000;
+    const uint16_t PhaseTime = 9500;
     const uint16_t FadeMs = 30;
     const uint8_t FadeAmountPerFrame = min(255.0f / ((float)FadeMs / clock.getTargetMsPerFrame()), 255);
     const uint8_t RingSizeOnTopAndBottom = 2;
@@ -192,8 +192,8 @@ void ShootAnimation::shots(uint16_t elapsed)
 
 void ShootAnimation::insanity(uint16_t elapsed)
 {
-    const uint16_t PhaseStartTime = 9000;
-    const uint16_t PhaseTime = 3000;
+    const uint16_t PhaseStartTime = 9500;
+    const uint16_t PhaseTime = 12500;
     const uint16_t FadeMs = 1000;
     const uint8_t FadeAmountPerFrame = min(255.0f / ((float)FadeMs / clock.getTargetMsPerFrame()), 255);
 
@@ -207,8 +207,8 @@ void ShootAnimation::insanity(uint16_t elapsed)
 
 void ShootAnimation::sparkleAway(uint16_t elapsed)
 {
-    const uint16_t PhaseStartTime = 12000;
-    const uint16_t PhaseTime = 3000;
+    const uint16_t PhaseStartTime = 12500;
+    const uint16_t PhaseTime = 15000;
     const uint16_t FadeMs = 1000;
     const uint8_t FadeAmountPerFrame = min(255.0f / ((float)FadeMs / clock.getTargetMsPerFrame()), 255);
 
@@ -223,6 +223,7 @@ void ShootAnimation::sparkleAway(uint16_t elapsed)
 void ShootAnimation::loop()
 {
     ulong elapsed = (micros() - startTime) / 1000;
+    Serial.println(elapsed);
 
     glowBase(elapsed);
     waves(elapsed);

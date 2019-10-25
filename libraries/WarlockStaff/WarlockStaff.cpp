@@ -101,7 +101,7 @@ void WarlockStaff::handleSenseEventsFomSerial()
         animationStartTime = micros();
         shootAnimation.start();
         setAnimation(&shootAnimation);
-        break ;
+        break;
     }
 
     state = newState;
