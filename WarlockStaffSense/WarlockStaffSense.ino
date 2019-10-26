@@ -13,7 +13,7 @@
 
 const uint16_t FPS = 240; // Refresh rate of sensor is 120Hz, go double that
 const uint8_t DelayPerLoop = 1000 / FPS;
-const float TapGsThreshold = 5.0f;
+const float TapGsThreshold = 3.0f;
 const uint16_t DoubleTapMs = 2000;
 const uint16_t DoubleTapDelayMs = 300;
 const float HorizontalAngleTresholdEnable = 1.0f;
@@ -360,11 +360,6 @@ void WarlockStaffSense::loop()
     {
         IMU.readGyroscope(reading.x, reading.y, reading.z);
         updateGyroscope(reading);
-    }
-
-    EVERY_N_MILLISECONDS(1000)
-    {
-        Serial1.println("!");
     }
 
     // Save power
