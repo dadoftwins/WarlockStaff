@@ -40,7 +40,7 @@ void WarlockStaff::setup()
 
     currentAnimation = &idleAnimation;
     idleScene = 0;
-    state == StaffState::Idle;
+    state = StaffState::Idle;
 
     animationFadeAmountPerFrame = 255 / (1000 / clock.getTargetMsPerFrame());
 }
@@ -53,7 +53,7 @@ void WarlockStaff::handleSenseEventsFomSerial()
     }
     
     char c = Serial1.read();
-    SerialPrintln(F("Sense received: "), c, F(" "), int(c));
+    SerialPrintln(F("Sense received: ["), c, F("]: "), int(c));
 
     StaffState newState;
     switch (c)
@@ -134,7 +134,7 @@ void WarlockStaff::loop()
 
         animationMinimumTime = 0;
         idleScene = 0;
-        setAnimation(&idleAnimation);
+        setAnimation(&idleAnimation);   
     }
 
     EVERY_N_SECONDS(15)

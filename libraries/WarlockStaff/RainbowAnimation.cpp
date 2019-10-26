@@ -43,7 +43,7 @@ void RainbowAnimation::loop()
         }
     }
 
-    EVERY_N_MILLISECONDS(3)
+    EVERY_N_MILLISECONDS(8)
     {
         hue += 1;
     }

@@ -236,24 +236,6 @@ void WarlockStaffSense::setState(StaffState newState)
     state = newState;
     horizontalState = newState;
 
-    /*
-    switch (state)
-    {
-    case StaffState::Idle:
-        digitalWrite(OutPin1, LOW);  digitalWrite(OutPin0, LOW);        
-        break;
-    case StaffState::Tap:
-        digitalWrite(OutPin1, LOW);  digitalWrite(OutPin0, HIGH);        
-        break;
-    case StaffState::DoubleTap:
-        digitalWrite(OutPin1, HIGH); digitalWrite(OutPin0, LOW);        
-        break;
-    case StaffState::Horizontal:
-        digitalWrite(OutPin1, HIGH); digitalWrite(OutPin0, HIGH);
-        break;
-    }
-    */
-
     switch (state)
     {
     case StaffState::Idle:
@@ -295,8 +277,6 @@ void WarlockStaffSense::updateAcceleration(const Vector3& reading)
     {
         // Check rotation
         float angle = baselineReading.angle(reading);
-        //Serial.print("Angle: ");
-        //Serial.println(angle);
         if (state != StaffState::Horizontal)
         {
             if (abs(angle) >= HorizontalAngleTresholdEnable)
@@ -315,8 +295,6 @@ void WarlockStaffSense::updateAcceleration(const Vector3& reading)
 
     // Look for taps
     float strength = (reading - accel).length();
-    //Serial.print("Strength: ");
-    //Serial.println(strength);
     if (strength >= TapGsThreshold)
     {
         Serial.print("Tap: ");
@@ -382,7 +360,12 @@ void WarlockStaffSense::loop()
     {
         IMU.readGyroscope(reading.x, reading.y, reading.z);
         updateGyroscope(reading);
-    } 
+    }
+
+    EVERY_N_MILLISECONDS(1000)
+    {
+        Serial1.println("!");
+    }
 
     // Save power
     delay(DelayPerLoop);   

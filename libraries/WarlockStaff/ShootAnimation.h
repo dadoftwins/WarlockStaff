@@ -27,7 +27,7 @@ private:
     void glowBase(uint16_t elapsedMs);
     void waves(uint16_t elapsedMs);
     void shots(uint16_t elapsedMs);
-    void insanity(uint16_t elapsedMs);
+    void done(uint16_t elapsedMs);
     void sparkleAway(uint16_t elapsedMs);
 
     static const uint8_t MaxRings = 10;
