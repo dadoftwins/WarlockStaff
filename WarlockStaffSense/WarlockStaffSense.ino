@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////
-// -=- Warlock|Staff|Sense -=- (c) Tim Burrell - 2019
+// -=- Warlock|Staff|Sense -=-
 //////////////////////////
 
 #include <Arduino.h>
@@ -166,7 +166,7 @@ void WarlockStaffSense::setup()
             break;
     }
     Serial.begin(115200);
-    Serial.println("-=- Warlock|Staff|Sense -=- v1.0 (c) 2019 Tim Burrell");
+    Serial.println("-=- Warlock|Staff|Sense -=- v1.0");
     Serial1.begin(9600);
 
     while (true)

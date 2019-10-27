@@ -25,7 +25,7 @@ void WarlockStaff::setup()
 
     Serial.begin(115200);
     Serial1.begin(9600);
-    SerialPrintln(F("-=- Warlock|Staff -=- v1.0 (c) 2019 Tim Burrell"));
+    SerialPrintln(F("-=- Warlock|Staff -=- v1.0"));
     SerialPrintln(F("    Using ["), NumStrips, F("] Strips of ["), NumLedsPerStrip, F("] LEDS @ ["), FPS, F("] FPS"));
 
     display.setup();
