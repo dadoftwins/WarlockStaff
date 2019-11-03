@@ -21,7 +21,7 @@ Here's what the staff looks like when you "shoot" it (hold it sideways):
 ## Design
 The design I used is as follows:
  - 5v Arduino Micro controls strips of 5v WS2812B individually addressable LEDs
- - 3.3v Arduino Nano 33 BLE Sense handles processes its on board accelerometer and does all of the gesture detection computations
+ - 3.3v Arduino Nano 33 BLE Sense handles processing its on board accelerometer and does all of the gesture detection computations
  - The two Arduinos communicate with each other via their extra onboard serial ports (Serial1)
 
 ### Why 2 Arduinos?
